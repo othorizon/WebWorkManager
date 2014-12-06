@@ -27,6 +27,10 @@ public partial class Register : System.Web.UI.Page
 
     protected void ddl_type_SelectedIndexChanged(object sender, EventArgs e)
     {
+      //  td_username.Visible = td_pwd1.Visible = td_pwd2.Visible = td_nextbutton.Visible = true;
+     //   Page.ClientScript.RegisterStartupScript(GetType(), "", "test()", true);
+
+        
         if (ddl_type.SelectedIndex != 0)
             if (ddl_type.Items.Count == 3)
             {
@@ -38,7 +42,7 @@ public partial class Register : System.Web.UI.Page
             lb_name.Text = "职工编号:";
         if (ddl_type.SelectedValue.ToString() == "student")
             lb_name.Text = "学号:";
-
+       
 
     }
 
