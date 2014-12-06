@@ -123,13 +123,6 @@ public partial class Register : System.Web.UI.Page
             db.Commit();
             Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
         }
-        //string sql;
-        //if(ddl_type.SelectedValue.Equals("student"))
-        //sql="insert into StudentInfo (StudentID,Name,ClassID) values('"+
-        //     tb_username.Text.Trim()+"','"+tb_name.Text.Trim()+"','"+ddl_class.SelectedValue.ToString()+"')";
-        //else
-        // sql="insert into TeacherInfo (TeacherID,Name,ClassID) values('"+
-        //     tb_username.Text.Trim()+"','"+tb_name.Text.Trim()+"','"+ddl_class.SelectedValue.ToString()+"')";
 
     }
 

@@ -5,6 +5,7 @@
     <style type="text/css">
         .auto-style1 {
         width: 336px;
+        margin:0 auto;
         }
         .auto-style2 {
             height: 20px;
