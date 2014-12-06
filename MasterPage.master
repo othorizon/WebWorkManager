@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body style="background-image:url(images/background.jpg); background-attachment:fixed;">
+    <table width="100%"   style="table-layout:fixed;">
+        <td style="width:100%;"> 作业管理系统<br />
+            作业管理系统<br />
+            这是header</td>  
+    </table>
+    <form id="form1" runat="server">
+    <div align="center";>
+        <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+        <div  style="filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000');
+    background-color:rgba(255, 255, 255,0.3);">
+        </div>
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
