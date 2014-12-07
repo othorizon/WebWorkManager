@@ -11,6 +11,7 @@ public partial class Login : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         isDenglu();//判断是否已登陆
+        tb_username.Focus();
     }
 
     private void isDenglu()
@@ -48,5 +49,10 @@ public partial class Login : System.Web.UI.Page
             Response.Redirect("UserCenter.aspx");
         }
 
+    }
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        dvregister.InnerHtml = "<iframe scrolling='no' id='iframeregister' style='opacity:0;border:none;height:0px;width:336px' src=\"MinRegister.aspx\"></iframe>";
+          Page.ClientScript.RegisterStartupScript(GetType(), "", "showregister()", true);
     }
 }

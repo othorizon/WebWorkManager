@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class Register : System.Web.UI.Page
+public partial class MinRegister : System.Web.UI.Page
 {
     static DBBean db;
     static bool userexist;
@@ -56,6 +56,7 @@ public partial class Register : System.Web.UI.Page
 
     protected void bt_next_Click(object sender, EventArgs e)
     {
+
       //  Page.ClientScript.RegisterStartupScript(GetType(), "", "alert('asd');", true);
 
         if (userexist)
@@ -113,7 +114,7 @@ public partial class Register : System.Web.UI.Page
     }
     private bool step1()
     {
-        
+
         bool ret = true; ;
         string sql = "insert into UserInfo (UserID,PassWord,Type) values('" +
      tb_username.Text.Trim() + "','" + tb_pwd1.Text + "','" + ddl_type.SelectedValue.ToString() + "');";
@@ -144,9 +145,10 @@ public partial class Register : System.Web.UI.Page
     {
         if (insertStudent())
         {
-            db.Commit();
-            Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
-            Response.Redirect("Login.aspx");
+          //  db.Commit();
+          //  Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
+            Page.ClientScript.RegisterStartupScript(GetType(), "", "returnstudent()", true);
+
         }
 
     }
@@ -155,9 +157,9 @@ public partial class Register : System.Web.UI.Page
     {
         if (insertTeacher())
         {
-            db.Commit();
-            Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
-            Response.Redirect("Login.aspx");
+           // db.Commit();
+           // Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
+            Page.ClientScript.RegisterStartupScript(GetType(), "", "returnteacher()", true);
         }
     }
 
