@@ -60,6 +60,8 @@ public partial class StudentCenter : System.Web.UI.Page
             {
                 inserOneWork(dt.Rows[i],i);
             }
+           Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
+        //   dvwork.InnerHtml += "<label style='height:300px;display:block'></label>";
         }
     }
 
@@ -70,12 +72,14 @@ public partial class StudentCenter : System.Web.UI.Page
       //  Page.ClientScript.RegisterStartupScript(GetType(),"", fun, true);
         string title = dataRow["Title"].ToString()+"\t截止时间:"+dataRow["EndTime"].ToString();
         string content = dataRow["Content"].ToString();
-        dvwork.InnerHtml += " <div id='dvworktitle" + num + "' class='touming' style=' font-weight: bold;font-size:large;color:red;' >"
+        dvwork.InnerHtml += " <div id='dvworktitle" + num + "' class='touming' style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >"
             + title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0;text-align:left'>" 
             + content + "</div>"
             +"<input type='button' style='text-align:center;width:500px;'  name='"+dataRow["WorkID"].ToString()+"' value='去完成工作' />"
         +"</div>";
-        dvwork.InnerHtml += "<div style='height:5px;'></div>";
+      //  dvwork.InnerHtml += "<div style='height:5px;'></div>";
+        dvwork.InnerHtml += "<label style='height:5px;display:block'></label>";
+
     }
     public  void test()
     {

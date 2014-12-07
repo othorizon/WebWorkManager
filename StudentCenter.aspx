@@ -25,11 +25,11 @@
     </div>
     <div style="height: 10px"></div>
 
-    <div style="width: 300px; float: left">
+    <div id="dvsetting" style="width: 300px; margin-left: 0px; position: absolute">
         相关设置
     </div>
 
-    <div id="dvwork" runat="server" style="cursor: pointer; width: 600px; float: left; margin-left: 320px">
+    <div id="dvwork" runat="server" style="cursor: pointer; width: 600px; position: absolute; margin-left: 620px">
     </div>
 
     <script type="text/javascript">//工作详情打开事件
@@ -37,12 +37,18 @@
         var show = 0;
         var clientid = '<%=dvwork.ClientID%>';
         $('#' + clientid + ' > div').click(function () {
-
+            $('#' + clientid + ' > div').css({ "opacity": "1", "height": "100%" });
             var id = this.id
             var num = $('#' + id + ' > div ').height();
             if (num < 50) {
                 $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
-                $(function () { $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800); });
+                $(function () {
+                    $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800,
+                        function () {
+                            $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 1000);
+                        });
+                });
+                                     
             }
             else {
                 $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
@@ -55,6 +61,19 @@
             window.open("DoWork.aspx?workid=" + id);
         });
     </script>
+    <script type="text/javascript">
+        function showwork() {
+            $('#<%=dvwork.ClientID%> > div').animate({ opacity: 1, height: '55px' }, 1000);
+            $('#<%=dvwork.ClientID%> > div').animate({ opacity: 1, height: '100%' }, 0);
+
+        }
+    </script>
+    <script type="text/javascript">
+        window.onscroll = function () {
+            document.getElementById("dvsetting").style.top =  + parseInt(document.documentElement.scrollTop, 10)  +100+ "px";
+        }
+    </script>
+
 
 
 
