@@ -10,16 +10,21 @@
 <body>
 <%
     HttpCookie cookie = Request.Cookies["UserStatus"];
-    if(cookie.Values["type"].Equals("student"))
-        Server.Transfer("StudentCenter.aspx");
-    else if (cookie.Values["type"].Equals("teacher"))
-        Server.Transfer("TeacherCenter.aspx");
-    else
+    if (cookie != null)
     {
-        cookie.Expires = DateTime.Now;
-        Response.Cookies.Add(cookie);
-        Response.Redirect("Login.aspx");
+        if (cookie.Values["type"].Equals("student"))
+            Server.Transfer("StudentCenter.aspx");
+        else if (cookie.Values["type"].Equals("teacher"))
+            Server.Transfer("TeacherCenter.aspx");
+        else
+        {
+            cookie.Expires = DateTime.Now;
+            Response.Cookies.Add(cookie);
+            Response.Redirect("Login.aspx");
+        }
     }
+    else
+        Response.Redirect("Error.aspx?msg=用户信息错误");
      %>
 </body>
 </html>

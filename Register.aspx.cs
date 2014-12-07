@@ -20,7 +20,15 @@ public partial class Register : System.Web.UI.Page
             userexist = false;
             db = new DBBean();
             ddl_type.SelectedIndex = 0;
-            td_username.Visible = td_pwd1.Visible = td_pwd2.Visible = td_nextbutton.Visible = false;
+   
+           //清除登陆状态
+            HttpCookie cookie = Request.Cookies["UserStatus"];
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now;
+                Response.Cookies.Add(cookie);
+            }
+          // td_username.Visible = td_pwd1.Visible = td_pwd2.Visible = td_nextbutton.Visible = false;
         }
 
     }
@@ -29,8 +37,8 @@ public partial class Register : System.Web.UI.Page
     {
       //  td_username.Visible = td_pwd1.Visible = td_pwd2.Visible = td_nextbutton.Visible = true;
      //   Page.ClientScript.RegisterStartupScript(GetType(), "", "test()", true);
-
-        
+        Page.ClientScript.RegisterStartupScript(GetType(), "", "show1()", true);
+       
         if (ddl_type.SelectedIndex != 0)
             if (ddl_type.Items.Count == 3)
             {
@@ -38,39 +46,52 @@ public partial class Register : System.Web.UI.Page
                 ddl_type.Items.RemoveAt(0);
 
             }
+         
         if (ddl_type.SelectedValue.ToString() == "teacher")
             lb_name.Text = "职工编号:";
         if (ddl_type.SelectedValue.ToString() == "student")
             lb_name.Text = "学号:";
-       
-
+    
     }
 
     protected void bt_next_Click(object sender, EventArgs e)
     {
+      //  Page.ClientScript.RegisterStartupScript(GetType(), "", "alert('asd');", true);
+
         if (userexist)
+        {
+            Page.ClientScript.RegisterStartupScript(GetType(), "", "show1()", true);
             return;
+        }
 
         if (step1())//注册第一步
         {
             tb_username.Enabled = ddl_type.Enabled = false;
-            td_pwd1.Visible = td_pwd2.Visible = td_nextbutton.Visible = false;
+          //  Page.ClientScript.RegisterStartupScript(GetType(), "", "hide()", true);
+
             if (ddl_type.SelectedValue.Equals("student"))
             {
                 if (stepstudent())
+                {
                     tb_stepstudent.Visible = true;
+                    tb_pwd1.Visible = tb_pwd2.Visible = bt_next.Visible = false;
+                    Page.ClientScript.RegisterStartupScript(GetType(), "", "showstudent()", true);
+                   
+                }
             }
             if (ddl_type.SelectedValue.Equals("teacher"))
             {
                 if (stepteacher())
                 {
                     tb_stepteacher.Visible = true;
+                    tb_pwd1.Visible = tb_pwd2.Visible = bt_next.Visible = false;
+                    Page.ClientScript.RegisterStartupScript(GetType(), "", "showteacher()", true);
  
                 }
             }
 
         }
-
+        
     }
 
     private bool stepteacher()
@@ -89,7 +110,6 @@ public partial class Register : System.Web.UI.Page
         else
             return false;
 
-        return true;
     }
     private bool step1()
     {
@@ -126,6 +146,7 @@ public partial class Register : System.Web.UI.Page
         {
             db.Commit();
             Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
+            Response.Redirect("Login.aspx");
         }
 
     }
@@ -136,6 +157,7 @@ public partial class Register : System.Web.UI.Page
         {
             db.Commit();
             Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
+            Response.Redirect("Login.aspx");
         }
     }
 
@@ -235,6 +257,7 @@ public partial class Register : System.Web.UI.Page
 
     protected void tb_username_TextChanged(object sender, EventArgs e)
     {
+   //     System.Threading.Thread.Sleep(5000);
         if (tb_username.Text.Trim().Equals(""))
         {
             lb_checkname.Text = "";
