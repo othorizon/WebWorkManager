@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 public partial class StudentCenter : System.Web.UI.Page
 {
-    public static string username="";
+    static string username="";
     static string Name="";
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -60,25 +60,19 @@ public partial class StudentCenter : System.Web.UI.Page
             {
                 inserOneWork(dt.Rows[i],i);
             }
-           Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
+        //   Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
         //   dvwork.InnerHtml += "<label style='height:300px;display:block'></label>";
         }
     }
 
     private void inserOneWork(DataRow dataRow,int num)
     {
-      //  lb_workid1.Text = dataRow["WorkID"].ToString();
-     //   string fun = "";
-      //  Page.ClientScript.RegisterStartupScript(GetType(),"", fun, true);
-        string title = dataRow["Title"].ToString()+"\t截止时间:"+dataRow["EndTime"].ToString();
-        string content = dataRow["Content"].ToString();
-        dvwork.InnerHtml += " <div id='dvworktitle" + num + "' class='touming' style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >"          
-            + title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0;text-align:left'>" 
-            + content + "</div>"
-            +"<input type='button' style='text-align:center;width:500px;' id='"+num+"'  name='"+dataRow["WorkID"].ToString()+"' value='去完成工作' />"
-        +"</div>";
-      //  dvwork.InnerHtml += "<div style='height:5px;'></div>";
-        dvwork.InnerHtml += "<label style='height:5px;display:block'></label>";
+        
+
+        //string s="workinfo.aspx?username=" + username + "&workid=" + dataRow["WorkID"].ToString();
+      //  dvwork.InnerHtml += "<div><iframe onclick='test()' width='100%' height='0' id='" + dataRow["WorkID"].ToString() + "' src='workinfo.aspx?username=" + username + "&workid=" + dataRow["WorkID"].ToString() + "' scrolling='no' frameborder='0' onload='this.height=this.contentWindow.document.documentElement.scrollHeight'></iframe></div>";
+     //   dvwork.InnerHtml += "<div style='height:auto'><iframe scrolling='no' style='height:auto;border:none;' src='workinfo.aspx?username=" + username + "&workid='"
+     //       + dataRow["WorkID"].ToString() + "'></iframe></div>";
 
     }
     public  void test()

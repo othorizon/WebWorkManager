@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 public partial class StudentCenter : System.Web.UI.Page
 {
-    public static string username="";
+    static string username="";
     static string Name="";
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -73,8 +73,10 @@ public partial class StudentCenter : System.Web.UI.Page
         string title = dataRow["Title"].ToString()+"\t截止时间:"+dataRow["EndTime"].ToString();
         string content = dataRow["Content"].ToString();
         dvwork.InnerHtml += " <div id='dvworktitle" + num + "' class='touming' style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >"          
-            + title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0;text-align:left'>" 
-            + content + "</div>"
+            + title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0'>" 
+          //  + "<iframe  width='100%' height='100%' src='workinfo.aspx?username=" + username + "&workid=" + dataRow["WorkID"].ToString() + "' scrolling='no' frameborder='0'></iframe>"
+             + content + "</div>"
+               + "<iframe id='iframe"+num+"' width='100%' height='100%' scrolling='no' frameborder='0'></iframe>"
             +"<input type='button' style='text-align:center;width:500px;' id='"+num+"'  name='"+dataRow["WorkID"].ToString()+"' value='去完成工作' />"
         +"</div>";
       //  dvwork.InnerHtml += "<div style='height:5px;'></div>";

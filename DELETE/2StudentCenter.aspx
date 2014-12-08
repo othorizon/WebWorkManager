@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StudentCenter.aspx.cs" Inherits="StudentCenter" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="2StudentCenter.aspx.cs" Inherits="StudentCenter" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <title>个人中心</title>
@@ -43,9 +43,12 @@
             if (num < 50) {
                 $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
                 $(function () {
-                    $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800,
+                    $('#' + id + ' > div ').animate({ height: '400px', opacity: 1 }, 800,
                         function () {
-                            $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 1000);
+                            $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 1000,
+                                function () {
+                                   // $("iframe").animate({ src: "workinfo.aspx" }, 800);
+                                });
                         });
                 });
                                      
@@ -61,7 +64,8 @@
             var num = this.id;
           //  document.getElementById('dvopenwork' + num).innerHTML = "<iframe scrolling='no' id='iframeregister' style='width:336px' src=\"MinRegister.aspx\"></iframe>";
              //   .text("<iframe scrolling='no' id='iframeregister' style='opacity:0;border:none;height:0px;width:336px' src=\"MinRegister.aspx\"></iframe>");
-            window.open("openwork.aspx?workid=" + id + "&username=<%=username%>", '', 'menubar=no,location=no,status=no,scroolbars=no,resizable=no,width=350,height=350');
+            $('#iframe' + id).animate({ src: "DoWork.aspx?workid="+ id }, 800);
+           // window.open("DoWork.aspx?workid=" + id);
         });
     </script>
     <script type="text/javascript">//工作列表动画
@@ -76,7 +80,6 @@
             document.getElementById("dvsetting").style.top =  + parseInt(document.documentElement.scrollTop, 10)  +100+ "px";
         }
     </script>
-
 
 
 

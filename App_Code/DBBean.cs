@@ -96,7 +96,7 @@ public class DBBean
             this.open();
             SqlCommand cmd = new SqlCommand(sql, con);
             foreach (SqlParameter p in sqlParams)
-                cmd.Parameters.Add(p);
+                cmd.Parameters.Add(p);        
             return cmd.ExecuteNonQuery();
         }
         catch
