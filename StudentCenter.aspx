@@ -34,11 +34,10 @@
     <div style="filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000'); background-color: rgba(255, 255, 255,0.3);">
     </div>
 
-    <div style="text-align: left;">
+    <div style="text-align: left; z-index: 99">
         <asp:Label ID="lb_name" runat="server"></asp:Label>
-        当前所选班级：
-     
-        <asp:DropDownList ID="ddl_Class" runat="server" AutoPostBack="True">
+        当前所选班级：  
+        <asp:DropDownList ID="ddl_Class" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddl_Class_SelectedIndexChanged">
         </asp:DropDownList>
         &nbsp;&nbsp;
         <asp:LinkButton ID="LinkButton1" runat="server" OnClick="LinkButton1_Click">注销</asp:LinkButton>
@@ -46,13 +45,16 @@
     <div style="height: 10px"></div>
 
 
-    <div id='dvopenwork' style="filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000'); background-color: rgba(255, 255, 255,0.3); z-index: 20; opacity: 0; display: none; POSITION: absolute; left: 625px; top: 116px; width: 0px; height: 344px; text-align: center">
+    <div id='dvopenwork' style="filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000'); background-color: rgba(255, 255, 255,0.3); z-index: 99; opacity: 0; display: none; POSITION: absolute; left: 625px; top: 116px; width: 0px; height: 344px; text-align: center">
         <iframe scrolling='no' id='iframeregister' style='opacity: 1; border: none; width: inherit; height: inherit' src="error.aspx"></iframe>
     </div>
 
 
-    <div id="dvsetting" style="width: 300px; margin-left: 0px; position: absolute">
-        asdasdasd
+    <div id="dvsetting" style="z-index: 20; width: 100px; margin-left: 20px; position: absolute">
+       <label >筛选工作：</label><br />
+         <input type="button" value="全部" onclick="showall()" /><br /><br />
+        <input type="button" value="未完成" onclick="hidefinish()" /><br /><br />
+        <input type="button" value="已完成" onclick="hidenotfinish()" />
     </div>
     <!--1111111111111111111111111111231-->
     <script>
@@ -72,7 +74,7 @@
     </div>
 
     <script type="text/javascript">//进入工作
-        $("input").click(function () {
+        $("#<%=dvwork.ClientID%> input").click(function () {
             var id = this.name;
             var num = this.id;
             //  document.getElementById('dvopenwork' + num).innerHTML = "<iframe scrolling='no' id='iframeregister' style='width:336px' src=\"MinRegister.aspx\"></iframe>";
@@ -82,70 +84,82 @@
     </script>
 
     <script type="text/javascript">//工作详情打开事件
-        //    $(function () { $('#dvcontent').animate({ height: '0px', opacity: 0 }, 1000); })
         var show = 0;
-
         var clientid = '<%=dvwork.ClientID%>';
-        //$('#' + clientid + ' > div  >div').click(function () {
-        //    alert('as');
-        //    openworkflag = 1;
-        //});
+
 
 
         $('#' + clientid + ' > div').click(function () {
-            $('#' + clientid + ' > div').css({ "opacity": "1", "height": "100%" });
+            //    $('#' + clientid + ' > div').css({ "opacity": "1", "height": "100%" });
+
             var id = this.id
             var num = $('#' + id + ' > div ').height();
             if (num < 50) {
 
-                $('#dvopenwork').animate({ width: '1px', left: '+=400px', opacity: 0 }, 500, function () {
+                $('#dvopenwork').animate({ width: '1px', left: '+=400px', opacity: 0 }, 500, function () {//隐藏openwork
                     document.getElementById("dvopenwork").style.display = "none";
                     $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
-              
-                                 
-                $(function () {
-                    $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800,
-                        function () {
-                            $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 500, function () {
 
-                                
-                                var dv = document.getElementById("dvopenwork");
-                                //  dv.offsetTop = base.offsetTop + 300;
+                    $(function () {
 
-                                //  dv.offsetLeft =30;
+                        $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800,
+                            function () {
+                                $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 500, function () {
+                                    var dv = document.getElementById("dvopenwork");
 
-                                if (document.getElementById("dvopenwork").style.display == "none") {
-                                    var px = 99 + id * 59;
-                                    //228 628
-                                    dv.style.top = px + "px";
-                                    $('#dvopenwork').animate({ left: '628px', width: '0px', opacity: 0 }, 0);                                
-                                    var workid = document.getElementById("button" + id).name;                           
-                                    document.getElementById("iframeregister").src = "openwork.aspx?username=" +<%=username%> +"&workid=" + workid;                                  
-                                    document.getElementById("dvopenwork").style.display = "";
-                                    $('#dvopenwork').animate({ left: '-=400px', width: '400px', opacity: 1 }, 800);
-                                }
+                                    if (document.getElementById("dvopenwork").style.display == "none") {
+                                        var px = 99 + id * 59;
+                                        //228 628
+                                        dv.style.top = px + "px";
+                                        $('#dvopenwork').animate({ left: '628px', width: '0px', opacity: 0 }, 0);
+                                        var workid = document.getElementById("button" + id).name;
+                                        document.getElementById("iframeregister").src = "openwork.aspx?username=" +<%=username%> +"&workid=" + workid;
+                                        document.getElementById("dvopenwork").style.display = "";
+                                        $('#dvopenwork').animate({ left: '-=400px', width: '400px', opacity: 1 }, 800);
+                                    }
+                                });
                             });
-                        });
-                });
+                    });
 
                 });
             }
             else {
+                $('#dvopenwork').animate({ width: '1px', left: '+=400px', opacity: 0 }, 500, function () {//隐藏openwork
+                    document.getElementById("dvopenwork").style.display = "none";
+                    document.getElementById("iframeregister").src = "";
+                    $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
+                });
 
-                $('#dvopenwork').animate({ height: '10px', opacity: 0 }, 0);
-                document.getElementById("dvopenwork").style.display = "none";
-                $(function () { $('#' + clientid + ' > div > div ').animate({ height: '10px', opacity: 0 }, 800); });
             }
-        });
+        } );
 
 
     </script>
 
+
     <script type="text/javascript">//工作列表动画
         function showwork() {
+
             $('#<%=dvwork.ClientID%> > div').animate({ opacity: 1, height: '55px' }, 1000);
             $('#<%=dvwork.ClientID%> > div').animate({ opacity: 1, height: '100%' }, 0);
+            // $("div[name='finish']").css( "display", "" );
+            //  $("div[name='"+type+"']").animate({ opacity: 1, height: '55px'}, 1000);
+            //   $("div[name='"+type+"']").animate({ opacity: 1, height: '100%' }, 0);
 
+        }
+        function hidefinish() {
+            $('#<%=dvwork.ClientID%> > div').animate({ opacity: 0, height: '1px' }, 1000);
+            document.location.href = "usercenter.aspx?worktype=notfinish";
+        }
+        function hidenotfinish() 
+        {
+            $('#<%=dvwork.ClientID%> > div').animate({ opacity: 0, height: '1px' }, 1000);
+            document.location.href = "usercenter.aspx?worktype=finish";
+        }
+        function showall()
+        {
+            $('#<%=dvwork.ClientID%> > div').animate({ opacity: 0, height: '1px' }, 1000);
+            document.location.href = "usercenter.aspx";
         }
     </script>
     <script type="text/javascript">//随屏幕滚动
@@ -153,7 +167,6 @@
             document.getElementById("dvsetting").style.top = +parseInt(document.documentElement.scrollTop, 10) + 100 + "px";
         }
     </script>
-
 
 
 
