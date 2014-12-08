@@ -65,39 +65,42 @@ public partial class StudentCenter : System.Web.UI.Page
         dt = db.GetDataTable(sql);
         if (dt != null)
         {
+            int num = 0;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                inserOneWork(dt.Rows[i], i);
+       
+              
+                //判断是否完成
+                bool finish = false;
+                sql = "select * from CommitWork where WorkID='" + dt.Rows[i]["WorkID"].ToString() +
+                    "' and StudentID='" + username + "'";
+                if (db.GetDataRow(sql) != null) finish = true;
+
+                //筛选
+                if (finish)
+                {
+                    if (worktype == "notfinish")
+                        continue;
+                }
+                else
+                {
+                    if (worktype == "finish")
+                        continue;
+                }
+                inserOneWork(dt.Rows[i], num,finish);
+                num++;
             }
             Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
             //   dvwork.InnerHtml += "<label style='height:300px;display:block'></label>";
         }
     }
 
-    private void inserOneWork(DataRow dataRow, int num)
+    private void inserOneWork(DataRow dataRow, int num,bool finish)
     {
         //  lb_workid1.Text = dataRow["WorkID"].ToString();
         //   string fun = "";
         //  Page.ClientScript.RegisterStartupScript(GetType(),"", fun, true);
 
-        //判断是否完成
-        bool finish = false;
-        string sql = "select * from CommitWork where WorkID='" + dataRow["WorkID"].ToString() +
-            "' and StudentID='" + username + "'";
-        DBBean db = new DBBean();
-        if (db.GetDataRow(sql) != null) finish = true;
-
-        //筛选
-        if (finish)
-        {
-            if (worktype == "notfinish")
-                return;
-        }
-        else
-        {
-            if (worktype == "finish")
-                return;
-        }
 
 
 
