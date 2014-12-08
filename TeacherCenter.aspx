@@ -46,13 +46,14 @@
 
 
     <div id='dvopenwork' style="filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000'); background-color: rgba(255, 255, 255,0.3); z-index: 99; opacity: 0; display: none; POSITION: absolute; left: 625px; top: 116px; width: 0px; height: 344px; text-align: center">
-        <iframe scrolling='no' id='iframeregister' style='opacity: 1; border: none; width: inherit; height: inherit' src="error.aspx"></iframe>
+        <iframe id='iframeregister' style='opacity: 1; border: none; width: inherit; height: inherit' src="error.aspx"></iframe>
     </div>
 
 
     <div id="dvsetting" style="z-index: 20; width: 100px; margin-left: 20px; position: absolute">
        <label id="lbclass" runat="server" >筛选工作：</label><br />
          <input type="button" value="全部" onclick="showall()" /><br /><br />
+         <input type="button" value="发布作业" onclick="releaswork()" /><br /><br />
 
     </div>
     <!--1111111111111111111111111111231-->
@@ -75,10 +76,13 @@
     <script type="text/javascript">//进入工作
         $("#<%=dvwork.ClientID%> input").click(function () {
             var id = this.name;
-            var num = this.id;
+            var num = document.getElementById("lbnum" + id).textContent;
             //  document.getElementById('dvopenwork' + num).innerHTML = "<iframe scrolling='no' id='iframeregister' style='width:336px' src=\"MinRegister.aspx\"></iframe>";
             //   .text("<iframe scrolling='no' id='iframeregister' style='opacity:0;border:none;height:0px;width:336px' src=\"MinRegister.aspx\"></iframe>");
-            window.open("openwork.aspx?workid=" + id + "&username=<%=username%>", '', 'menubar=no,location=no,status=no,scroolbars=no,resizable=no,width=350,height=350');
+           // window.open("openwork.aspx?workid=" + id + "&username=<%=username%>", '', 'menubar=no,location=no,status=no,scroolbars=no,resizable=no,width=350,height=350');
+            window.open("workstatus.aspx?workid="
+            + document.getElementById("lbworkid" + num).textContent +
+             "&classid=" + document.getElementById("lbclassid" + num).textContent,"","menubar=no");
         });
     </script>
 
@@ -87,7 +91,7 @@
         var clientid = '<%=dvwork.ClientID%>';
 
 
-
+        
         $('#' + clientid + ' > div').click(function () {
             //    $('#' + clientid + ' > div').css({ "opacity": "1", "height": "100%" });
 
@@ -104,6 +108,8 @@
                         $('#' + id + ' > div ').animate({ height: '300px', opacity: 1 }, 800,
                             function () {
                                 $("html,body").animate({ scrollTop: $("#" + id).offset().top - 50 }, 500, function () {
+
+                                    
                                     var dv = document.getElementById("dvopenwork");
 
                                     if (document.getElementById("dvopenwork").style.display == "none") {
@@ -112,7 +118,12 @@
                                         dv.style.top = px + "px";
                                         $('#dvopenwork').animate({ left: '628px', width: '0px', opacity: 0 }, 0);
                                         var workid = document.getElementById("button" + id).name;
-                                        document.getElementById("iframeregister").src = "openwork.aspx?username=" +<%=username%> +"&workid=" + workid;
+
+                                        //设置工作内容                                    
+                                       //没用了  document.getElementById("iframeregister").src = "openwork.aspx?username=" +<%=username%> +"&workid=" + workid;
+                                        document.getElementById("iframeregister").src = "workstatus.aspx?workid=" +
+                                            document.getElementById("lbworkid" + id).textContent +
+                                            "&classid=" + document.getElementById("lbclassid" + id).textContent;
                                         document.getElementById("dvopenwork").style.display = "";
                                         $('#dvopenwork').animate({ left: '-=400px', width: '400px', opacity: 1 }, 800);
                                     }
@@ -164,6 +175,10 @@
         {
             $('#<%=dvwork.ClientID%> > div').animate({ opacity: 0, height: '1px' }, 800);
             document.location.href = "usercenter.aspx?classid="+id;
+        }
+        function releaswork()
+        {
+            window.open("releasework.aspx?classid='<%=classid%>'", "发布作业", "menubar=no，width=100%");
         }
     </script>
     <script type="text/javascript">//随屏幕滚动

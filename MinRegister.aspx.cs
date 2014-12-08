@@ -145,7 +145,7 @@ public partial class MinRegister : System.Web.UI.Page
     {
         if (insertStudent())
         {
-          //  db.Commit();
+            db.Commit();
           //  Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
             Page.ClientScript.RegisterStartupScript(GetType(), "", "returnstudent()", true);
 
@@ -157,7 +157,7 @@ public partial class MinRegister : System.Web.UI.Page
     {
         if (insertTeacher())
         {
-           // db.Commit();
+            db.Commit();
            // Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('注册成功')", true);
             Page.ClientScript.RegisterStartupScript(GetType(), "", "returnteacher()", true);
         }

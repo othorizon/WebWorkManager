@@ -93,18 +93,28 @@ public partial class TeacherCenter : System.Web.UI.Page
 
 
 
+        string committime = "";
+        try
+        {
+            committime = Convert.ToDateTime(dataRow["EndTime"]).ToShortDateString();
+        }
+        catch { }
 
         string title = finish == true ? "【已完成】" : "";
-        title += dataRow["Title"].ToString() + "\t截止:" + Convert.ToDateTime(dataRow["EndTime"]).ToShortDateString()
+        title += dataRow["Title"].ToString() + "\t截止:" + committime
             + "\t发布:" + Convert.ToDateTime(dataRow["ReleaseTime"]).ToShortDateString();
         string content = dataRow["Content"].ToString();
         if (finish)
             dvwork.InnerHtml += " <div name='finish' id='" + num + "' class='touming'style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >";
         else
             dvwork.InnerHtml += " <div  name='notfinish'  id='" + num + "' class='touming' style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >";
-
         dvwork.InnerHtml += title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0;text-align:left'>"
-            + content + "</div>"
+            + content + 
+            "<label id='lbworkid"+num+"' style='visibility:collapse'>"+dataRow["WorkID"]+"</label>"+
+             "<label id='lbclassid" + num + "' style='visibility:collapse'>" + classid+ "</label>" +
+             "<label id='lbnum" + dataRow["WorkID"] + "' style='visibility:collapse'>" + num+ "</label>" +
+          //  " <iframe  id='sinfo"+num+"' scrolling='yes' style='opacity: 1; border: none; width: inherit; height: inherit' src='''></iframe>"
+            "</div>"
             + "<input type='button' style='text-align:center;width:500px;' id='button" + num + "'  name='" + dataRow["WorkID"].ToString() + "' value='去完成工作' />"
         + "</div>";
         //  dvwork.InnerHtml += "<div style='height:5px;'></div>";
