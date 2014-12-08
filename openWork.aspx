@@ -16,7 +16,7 @@
 </head>
 <body>
     <form id="form1" runat="server" style="text-align:left;width:340px">
-        <div style="filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3f000000',endColorstr='#3f000000'); background-color: rgba(255, 255, 255,0.3);">
+        <div>
             <div>
                 标题：<asp:TextBox ID="tbtitle" Style="background-color: transparent;" Width="221px" runat="server"></asp:TextBox>
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="tbtitle" Display="Dynamic" ErrorMessage="RequiredFieldValidator" ForeColor="Red">不能为空</asp:RequiredFieldValidator>
