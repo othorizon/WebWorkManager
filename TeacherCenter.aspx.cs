@@ -6,11 +6,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class StudentCenter : System.Web.UI.Page
+public partial class TeacherCenter : System.Web.UI.Page
 {
     public static string username = "";
     static string Name = "";
-    public static string worktype = "all";
+    public static string classid = "[ALL]";
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -18,7 +18,7 @@ public partial class StudentCenter : System.Web.UI.Page
             //加载用户名
             username = Request.Cookies["UserStatus"].Values["username"];
             DBBean db = new DBBean();
-            string sql = "select Name from StudentInfo where StudentID='" + username + "'";
+            string sql = "select Name from TeacherInfo where TeacherID='" + username + "'";
             DataRow dr = db.GetDataRow(sql);
             if (dr != null)
             {
@@ -29,29 +29,33 @@ public partial class StudentCenter : System.Web.UI.Page
             {
                 Response.Redirect("Error.aspx?msg=UserError");
             }
+            if (Request.QueryString["classid"] != null)
+            {
+                classid = Request.QueryString["classid"];
+            }
+
             //加载班级
-            sql = "select ClassInfo.ClassID,ClassInfo.Name from StudentInfo,ClassInfo where StudentID='" + username
-                + "' and ClassInfo.ClassID=StudentInfo.ClassID";
+            sql = "select ClassInfo.ClassID,ClassInfo.Name from TeacherInfo,ClassInfo where TeacherID='" + username
+                + "' and ClassInfo.ClassID=TeacherInfo.ClassID";
             DataTable dt = db.GetDataTable(sql);
             if (dt != null)
             {
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    ddl_Class.Items.Add(new ListItem(dt.Rows[i]["Name"].ToString(), dt.Rows[i]["ClassID"].ToString()));
+                    //顺便设置班级名称label
+                    string s=dt.Rows[i]["ClassID"].ToString();
+                    if (dt.Rows[i]["ClassID"].Equals(classid))
+                        classname.Text = dt.Rows[i]["Name"].ToString();
+                    lbclass.InnerHtml += " <input type='button' value='" + dt.Rows[i]["Name"].ToString()
+                        + "' onclick=\"selectclass('" + dt.Rows[i]["ClassID"].ToString() + "')\" /><br /><br />";
                 }
             }
             else
             {
                 Response.Redirect("Error.aspx?msg=UserError");
             }
-            if (Request.QueryString["Class"] != null)
-            {
-                ddl_Class.SelectedValue = Request.QueryString["Class"];
-            }
-            if (Request.QueryString["worktype"] != null)
-            {
-                worktype = Request.QueryString["worktype"];
-            }
+
+
             LoadWork();//加载作业信息
 
 
@@ -60,33 +64,20 @@ public partial class StudentCenter : System.Web.UI.Page
     public static DataTable dt;
     private void LoadWork()
     {
-        string sql = "select * from ReleaseWork where ClassID='" + ddl_Class.SelectedValue + "'ORDER BY EndTime ASC,ReleaseTime DESC";
+        //筛选班级
+        string sql= "select * from ReleaseWork where TeacherID='" + username + "'";
+        if (classid != "[ALL]" && classid.Trim()!="")
+            sql+=" and  ClassID='"+classid+"' ";
+        sql+= " ORDER BY EndTime ASC,ReleaseTime DESC";
+
         DBBean db = new DBBean();
         dt = db.GetDataTable(sql);
         if (dt != null)
         {
-            int num = 0;
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {                 
-                //判断是否完成
-                bool finish = false;
-                sql = "select * from CommitWork where WorkID='" + dt.Rows[i]["WorkID"].ToString() +
-                    "' and StudentID='" + username + "'";
-                if (db.GetDataRow(sql) != null) finish = true;
 
-                //筛选
-                if (finish)
-                {
-                    if (worktype == "notfinish")
-                        continue;
-                }
-                else
-                {
-                    if (worktype == "finish")
-                        continue;
-                }
-                inserOneWork(dt.Rows[i], num,finish);
-                num++;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                inserOneWork(dt.Rows[i],i,false);
             }
             System.Threading.Thread.Sleep(1000);
             Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
@@ -94,7 +85,7 @@ public partial class StudentCenter : System.Web.UI.Page
         }
     }
 
-    private void inserOneWork(DataRow dataRow, int num,bool finish)
+    private void inserOneWork(DataRow dataRow, int num, bool finish)
     {
         //  lb_workid1.Text = dataRow["WorkID"].ToString();
         //   string fun = "";
@@ -104,7 +95,7 @@ public partial class StudentCenter : System.Web.UI.Page
 
 
         string title = finish == true ? "【已完成】" : "";
-        title += dataRow["Title"].ToString() + "\t截止:" + Convert.ToDateTime( dataRow["EndTime"]).ToShortDateString()
+        title += dataRow["Title"].ToString() + "\t截止:" + Convert.ToDateTime(dataRow["EndTime"]).ToShortDateString()
             + "\t发布:" + Convert.ToDateTime(dataRow["ReleaseTime"]).ToShortDateString();
         string content = dataRow["Content"].ToString();
         if (finish)
@@ -131,10 +122,7 @@ public partial class StudentCenter : System.Web.UI.Page
         Response.Cookies.Add(cookie);
         Response.Redirect("Login.aspx");
     }
-    protected void ddl_Class_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        Server.Transfer("studentcenter.aspx?class=" + ddl_Class.SelectedValue);
-    }
+
     protected void btfinish_Click(object sender, EventArgs e)
     {
         Page.ClientScript.RegisterStartupScript(GetType(), "", "hidefinish()", true);

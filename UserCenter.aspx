@@ -16,7 +16,7 @@
                 Server.Transfer("StudentCenter.aspx?worktype=" + Request.QueryString["worktype"]);
             else
                 if (cookie.Values["type"].Equals("teacher"))
-                    Server.Transfer("TeacherCenter.aspx");
+                    Server.Transfer("TeacherCenter.aspx?classid=" + Request.QueryString["classid"]);
                 else
                 {
                     cookie.Expires = DateTime.Now;
