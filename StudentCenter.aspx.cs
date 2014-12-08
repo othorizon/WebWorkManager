@@ -60,16 +60,14 @@ public partial class StudentCenter : System.Web.UI.Page
     public static DataTable dt;
     private void LoadWork()
     {
-        string sql = "select * from ReleaseWork where ClassID='" + ddl_Class.SelectedValue + "'";
+        string sql = "select * from ReleaseWork where ClassID='" + ddl_Class.SelectedValue + "'ORDER BY EndTime ASC,ReleaseTime DESC";
         DBBean db = new DBBean();
         dt = db.GetDataTable(sql);
         if (dt != null)
         {
             int num = 0;
             for (int i = 0; i < dt.Rows.Count; i++)
-            {
-       
-              
+            {                 
                 //判断是否完成
                 bool finish = false;
                 sql = "select * from CommitWork where WorkID='" + dt.Rows[i]["WorkID"].ToString() +
@@ -105,7 +103,8 @@ public partial class StudentCenter : System.Web.UI.Page
 
 
         string title = finish == true ? "【已完成】" : "";
-        title += dataRow["Title"].ToString() + "\t截止时间:" + dataRow["EndTime"].ToString();
+        title += dataRow["Title"].ToString() + "\t截止:" + Convert.ToDateTime( dataRow["EndTime"]).ToShortDateString()
+            + "\t发布:" + Convert.ToDateTime(dataRow["ReleaseTime"]).ToShortDateString();
         string content = dataRow["Content"].ToString();
         if (finish)
             dvwork.InnerHtml += " <div name='finish' id='" + num + "' class='touming'style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >";

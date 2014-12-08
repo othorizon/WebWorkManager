@@ -54,8 +54,26 @@ public partial class openWork : System.Web.UI.Page
 
 
     }
+    private bool overtime()
+    {
+        string sql = "select EndTime from ReleaseWork where WorkID='" + workid;
+        DBBean db = new DBBean();
+        DataRow dr=db.GetDataRow(sql);
+        if (dr != null)
+        {
+            if (Convert.ToDateTime(dr[0]) > DateTime.Now)
+                return false;          
+
+        }
+        return true;
+    }
     protected void Button1_Click(object sender, EventArgs e)
     {
+        if (overtime())
+        {
+            Page.ClientScript.RegisterClientScriptBlock(GetType(), "", "alert('O(∩_∩)O哈哈~你完蛋了！超过截止日期，不能提交了！！')", true);
+            return;
+        }
 
         string path = "";
         //上传文件
@@ -125,6 +143,8 @@ public partial class openWork : System.Web.UI.Page
         loadinfo();
 
     }
+
+
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
         // Page.ClientScript.RegisterStartupScript(GetType(), "", "hideattach()", true);
