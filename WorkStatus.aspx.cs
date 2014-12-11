@@ -53,8 +53,15 @@ public partial class WorkStatus : System.Web.UI.Page
         DataRow dr = db.GetDataRow(sql);
         if (dr != null)
         {
-            if (Convert.ToDateTime(dr[0]) > DateTime.Now)
+            try
+            {
+                if (Convert.ToDateTime(dr[0]) > DateTime.Now)
+                    return false;
+            }
+            catch
+            {
                 return false;
+            }
 
         }
         return true;
@@ -101,5 +108,9 @@ public partial class WorkStatus : System.Web.UI.Page
     protected void GridView1_RowCreated(object sender, GridViewRowEventArgs e)
     {
         e.Row.Cells[1].Visible = false;
+        if (e.Row.Cells[6].Text.Trim() == "")
+        {
+            e.Row.Cells[0].Text = "";
+        }
     }
 }

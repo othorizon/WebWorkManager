@@ -148,6 +148,7 @@ public partial class openWork : System.Web.UI.Page
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
         // Page.ClientScript.RegisterStartupScript(GetType(), "", "hideattach()", true);
+        
         string path = Server.MapPath(username + "\\" + workid);
         try
         {
@@ -159,6 +160,7 @@ public partial class openWork : System.Web.UI.Page
             Response.Redirect("error.aspx?msg=删除失败，服务器异常");
         }
         dvattach.Visible = false;
+        path = "";
     }
     protected void bt_delete_Click(object sender, EventArgs e)
     {

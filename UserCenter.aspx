@@ -25,7 +25,11 @@
                 }
         }
         else
+        {
             Response.Redirect("Error.aspx?msg=用户信息错误");
+            cookie.Expires = DateTime.Now;
+            Response.Cookies.Add(cookie);
+        }
     %>
 </body>
 </html>

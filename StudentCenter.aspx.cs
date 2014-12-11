@@ -104,7 +104,9 @@ public partial class StudentCenter : System.Web.UI.Page
 
 
         string title = finish == true ? "【已完成】" : "";
-        title += dataRow["Title"].ToString() + "\t截止:" + Convert.ToDateTime( dataRow["EndTime"]).ToShortDateString()
+        string endtime = "";
+        if (!(dataRow["EndTime"] is DBNull)) endtime = Convert.ToDateTime(dataRow["EndTime"]).ToShortDateString();
+        title += dataRow["Title"].ToString() + "\t截止:" +endtime
             + "\t发布:" + Convert.ToDateTime(dataRow["ReleaseTime"]).ToShortDateString();
         string content = dataRow["Content"].ToString();
         if (finish)
