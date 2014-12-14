@@ -43,7 +43,7 @@ public partial class TeacherCenter : System.Web.UI.Page
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     //顺便设置班级名称label
-                    string s=dt.Rows[i]["ClassID"].ToString();
+                    string s = dt.Rows[i]["ClassID"].ToString();
                     if (dt.Rows[i]["ClassID"].Equals(classid))
                         classname.Text = dt.Rows[i]["Name"].ToString();
                     lbclass.InnerHtml += " <input type='button' value='" + dt.Rows[i]["Name"].ToString()
@@ -65,10 +65,10 @@ public partial class TeacherCenter : System.Web.UI.Page
     private void LoadWork()
     {
         //筛选班级
-        string sql= "select * from ReleaseWork where TeacherID='" + username + "'";
-        if (classid != "[ALL]" && classid.Trim()!="")
-            sql+=" and  ClassID='"+classid+"' ";
-        sql+= " ORDER BY EndTime ASC,ReleaseTime DESC";
+        string sql = "select * from ReleaseWork where TeacherID='" + username + "'";
+        if (classid != "[ALL]" && classid.Trim() != "")
+            sql += " and  ClassID='" + classid + "' ";
+        sql += " ORDER BY EndTime ASC,ReleaseTime DESC";
 
         DBBean db = new DBBean();
         dt = db.GetDataTable(sql);
@@ -77,7 +77,7 @@ public partial class TeacherCenter : System.Web.UI.Page
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                inserOneWork(dt.Rows[i],i,false);
+                inserOneWork(dt.Rows[i], i, false);
             }
             System.Threading.Thread.Sleep(1000);
             Page.ClientScript.RegisterStartupScript(GetType(), "", "showwork()", true);
@@ -109,11 +109,11 @@ public partial class TeacherCenter : System.Web.UI.Page
         else
             dvwork.InnerHtml += " <div  name='notfinish'  id='" + num + "' class='touming' style='opacity:0;height:1px; font-weight: bold;font-size:large;color:red;' >";
         dvwork.InnerHtml += title + "<div id='dvworkceontent" + num + "' style='color:black;height:10px;opacity:0;text-align:left'>"
-            + content + 
-            "<label id='lbworkid"+num+"' style='visibility:collapse'>"+dataRow["WorkID"]+"</label>"+
-             "<label id='lbclassid" + num + "' style='visibility:collapse'>" + classid+ "</label>" +
-             "<label id='lbnum" + dataRow["WorkID"] + "' style='visibility:collapse'>" + num+ "</label>" +
-          //  " <iframe  id='sinfo"+num+"' scrolling='yes' style='opacity: 1; border: none; width: inherit; height: inherit' src='''></iframe>"
+            + content +
+            "<label id='lbworkid" + num + "' style='visibility:collapse'>" + dataRow["WorkID"] + "</label>" +
+             "<label id='lbclassid" + num + "' style='visibility:collapse'>" + classid + "</label>" +
+             "<label id='lbnum" + dataRow["WorkID"] + "' style='visibility:collapse'>" + num + "</label>" +
+            //  " <iframe  id='sinfo"+num+"' scrolling='yes' style='opacity: 1; border: none; width: inherit; height: inherit' src='''></iframe>"
             "</div>"
             + "<input type='button' style='text-align:center;width:500px;' id='button" + num + "'  name='" + dataRow["WorkID"].ToString() + "' value='去完成工作' />"
         + "</div>";
@@ -127,10 +127,16 @@ public partial class TeacherCenter : System.Web.UI.Page
     }
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
-        HttpCookie cookie = Request.Cookies["UserStatus"];
-        cookie.Expires = DateTime.Now;
-        Response.Cookies.Add(cookie);
-        Response.Redirect("Login.aspx");
+        try
+        {
+            HttpCookie cookie = Request.Cookies["UserStatus"];
+            cookie.Expires = DateTime.Now;
+            Response.Cookies.Add(cookie);
+        }
+        finally
+        {
+            Response.Redirect("Login.aspx");
+        }
     }
 
     protected void btfinish_Click(object sender, EventArgs e)

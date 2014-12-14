@@ -17,7 +17,7 @@ public class DBBean
 	public DBBean()
 	{
         strcon = WebConfigurationManager.ConnectionStrings["sqlservercon"].ConnectionString;
-
+       // strcon = WebConfigurationManager.ConnectionStrings["WebWorkManagerConnectionString"].ConnectionString; 
 	}
     public void open()
     {

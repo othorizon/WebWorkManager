@@ -128,10 +128,16 @@ public partial class StudentCenter : System.Web.UI.Page
     }
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
-        HttpCookie cookie = Request.Cookies["UserStatus"];
-        cookie.Expires = DateTime.Now;
-        Response.Cookies.Add(cookie);
-        Response.Redirect("Login.aspx");
+        try
+        {
+            HttpCookie cookie = Request.Cookies["UserStatus"];
+            cookie.Expires = DateTime.Now;
+            Response.Cookies.Add(cookie);
+        }
+        finally
+        {
+            Response.Redirect("Login.aspx");
+        }
     }
     protected void ddl_Class_SelectedIndexChanged(object sender, EventArgs e)
     {
