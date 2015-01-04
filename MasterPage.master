@@ -10,9 +10,7 @@
 </head>
 <body style="background-image:url(images/background.jpg); background-attachment:fixed;">
     <table width="100%"   style="table-layout:fixed;">
-        <td style="width:100%;"> 作业管理系统<br />
-            作业管理系统<br />
-            这是header</td>  
+        <td style="width:100%;"> QTECH 在线作业提交系统 Beta 1.0</td>  
     </table>
     <form id="form1" runat="server">
     <div align="center";>

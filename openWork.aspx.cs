@@ -59,13 +59,14 @@ public partial class openWork : System.Web.UI.Page
         string sql = "select EndTime from ReleaseWork where WorkID='" + workid+"'";
         DBBean db = new DBBean();
         DataRow dr=db.GetDataRow(sql);
-        if (dr != null)
+
+        if ( dr != null && !(dr["EndTime"] is DBNull))
         {
-            if (Convert.ToDateTime(dr["EndTime"]) > DateTime.Now)
-                return false;          
+            if (Convert.ToDateTime(dr["EndTime"]) < DateTime.Now)
+                return true;          
 
         }
-        return true;
+        return false;
     }
     protected void Button1_Click(object sender, EventArgs e)
     {

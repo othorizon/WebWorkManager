@@ -16,8 +16,8 @@ public class DBBean
     SqlTransaction tran;
 	public DBBean()
 	{
-        strcon = WebConfigurationManager.ConnectionStrings["sqlservercon"].ConnectionString;
-       // strcon = WebConfigurationManager.ConnectionStrings["WebWorkManagerConnectionString"].ConnectionString; 
+      //  strcon = WebConfigurationManager.ConnectionStrings["sqlservercon"].ConnectionString;
+        strcon = WebConfigurationManager.ConnectionStrings["WebWorkManagerConnectionString"].ConnectionString; 
 	}
     public void open()
     {
@@ -99,8 +99,9 @@ public class DBBean
                 cmd.Parameters.Add(p);        
             return cmd.ExecuteNonQuery();
         }
-        catch
+        catch(Exception ex)
         {
+            String exss = ex.ToString();
             return -1;
         }
         finally

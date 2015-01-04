@@ -89,7 +89,7 @@ public partial class ReleaseWork : System.Web.UI.Page
         if (commitetime != "")
         {
             sql = "insert into ReleaseWork (TeacherID,ClassID,Title,Content,ReleaseTime,EndTime)values(@TeacherID,@ClassID,@Title,@Content,@ReleaseTime,@EndTime)";
-            sqlparams.Add(new SqlParameter("@CommitTime", commitetime));
+            sqlparams.Add(new SqlParameter("@EndTime", commitetime));
         }
         else
             sql = "insert into ReleaseWork (TeacherID,ClassID,Title,Content,ReleaseTime)values(@TeacherID,@ClassID,@Title,@Content,@ReleaseTime)";

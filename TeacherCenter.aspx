@@ -120,7 +120,7 @@
                                         var workid = document.getElementById("button" + id).name;
 
                                         //设置工作内容                                    
-                                       //没用了  document.getElementById("iframeregister").src = "openwork.aspx?username=" +<%=username%> +"&workid=" + workid;
+                                      
                                         document.getElementById("iframeregister").src = "workstatus.aspx?workid=" +
                                             document.getElementById("lbworkid" + id).textContent +
                                             "&classid=" + document.getElementById("lbclassid" + id).textContent;
